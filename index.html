@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>俊傑洗衣 - 線上預約落單</title>
+  <style>
+    :root { --primary: #0284c7; --bg: #f8fafc; --card: #ffffff; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); margin: 0; padding: 16px; color: #1e293b; }
+    .container { max-width: 480px; margin: 0 auto; background: var(--card); border-radius: 16px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+    h2 { margin-top: 0; color: var(--primary); text-align: center; }
+    .section-title { font-weight: 600; margin: 16px 0 8px; font-size: 15px; border-bottom: 2px solid #e2e8f0; padding-bottom: 4px; }
+    .form-group { margin-bottom: 12px; }
+    label { display: block; font-size: 14px; margin-bottom: 4px; font-weight: 500; }
+    input, select, textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; font-size: 15px; }
+    .item-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 14px; }
+    .item-row input[type="number"] { width: 70px; text-align: center; }
+    .total-box { background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 12px; margin: 16px 0; text-align: center; font-size: 18px; font-weight: bold; color: #0369a1; }
+    .btn-submit { background: #25d366; color: white; border: none; width: 100%; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn-submit:hover { background: #1ebc59; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>🧺 俊傑洗衣 - 預約收送</h2>
+  
+  <div class="section-title">1. 聯絡與上門收送資料</div>
+  <div class="form-group">
+    <label>顧客姓名 / 稱謂</label>
+    <input type="text" id="custName" placeholder="例如：陳先生">
+  </div>
+  <div class="form-group">
+    <label>聯絡電話</label>
+    <input type="tel" id="custPhone" placeholder="例如：91234567">
+  </div>
+  <div class="form-group">
+    <label>收送地址 (連大廈及室號)</label>
+    <input type="text" id="custAddress" placeholder="例如：觀塘水寧樓 X 室">
+  </div>
+  <div class="form-group">
+    <label>期望上門時段</label>
+    <select id="pickupTime">
+      <option value="上午時段 (10:00 - 13:00)">上午時段 (10:00 - 13:00)</option>
+      <option value="下午時段 (14:00 - 18:00)">下午時段 (14:00 - 18:00)</option>
+      <option value="晚間時段 (19:00 - 21:00)">晚間時段 (19:00 - 21:00)</option>
+    </select>
+  </div>
+
+  <div class="section-title">2. 選擇洗滌服務</div>
+  <div class="item-row">
+    <span>磅洗估算 (首6磅$55，其後每磅$6)</span>
+    <input type="number" id="washPounds" min="0" value="0" step="1" onchange="calculate()">
+  </div>
+  <div class="item-row">
+    <span>普通被單 / 床笠 (+$25/件)</span>
+    <input type="number" id="bedSheet" min="0" value="0" onchange="calculate()">
+  </div>
+  <div class="item-row">
+    <span>冷氣被 / 珊瑚被 ($85起/張)</span>
+    <input type="number" id="quiltAir" min="0" value="0" onchange="calculate()">
+  </div>
+  <div class="item-row">
+    <span>羽絨被 / 大豆被 ($165起/張)</span>
+    <input type="number" id="quiltDown" min="0" value="0" onchange="calculate()">
+  </div>
+
+  <div class="form-group">
+    <label>特別要求 / 備註</label>
+    <textarea id="remarks" rows="2" placeholder="例如：唔要柔順劑 / 重點去污"></textarea>
+  </div>
+
+  <div class="total-box">預估金額：HKD $<span id="totalDisplay">0</span></div>
+
+  <button class="btn-submit" onclick="sendToWhatsApp()">
+    📲 透過 WhatsApp 傳送訂單
+  </button>
+</div>
+
+<script>
+  // 店舖收單 WhatsApp 號碼 (請替換為你的手機號碼，不用加 + 號，例: 85291234567)
+  const SHOP_PHONE = "85265777167"; 
+
+  function calculate() {
+    let total = 0;
+    const pounds = parseFloat(document.getElementById("washPounds").value) || 0;
+    if (pounds > 0) {
+      total += pounds <= 6 ? 55 : 55 + (pounds - 6) * 6;
+    }
+    total += (parseInt(document.getElementById("bedSheet").value) || 0) * 25;
+    total += (parseInt(document.getElementById("quiltAir").value) || 0) * 85;
+    total += (parseInt(document.getElementById("quiltDown").value) || 0) * 165;
+    document.getElementById("totalDisplay").innerText = total;
+    return total;
+  }
+
+  function sendToWhatsApp() {
+    const name = document.getElementById("custName").value.trim();
+    const phone = document.getElementById("custPhone").value.trim();
+    const addr = document.getElementById("custAddress").value.trim();
+    const time = document.getElementById("pickupTime").value;
+    const remarks = document.getElementById("remarks").value.trim();
+    const pounds = document.getElementById("washPounds").value;
+    const sheet = document.getElementById("bedSheet").value;
+    const qAir = document.getElementById("quiltAir").value;
+    const qDown = document.getElementById("quiltDown").value;
+    const total = calculate();
+
+    if (!phone || !addr) {
+      alert("請填寫聯絡電話及收送地址！");
+      return;
+    }
+
+    let items = [];
+    if (pounds > 0) items.push(`- 磅洗約 ${pounds} 磅`);
+    if (sheet > 0) items.push(`- 被單/床笠 x ${sheet}`);
+    if (qAir > 0) items.push(`- 冷氣/珊瑚被 x ${qAir}`);
+    if (qDown > 0) items.push(`- 羽絨被 x ${qDown}`);
+
+    let msg = `【俊傑洗衣 - 新預約訂單】\n` +
+              `顧客：${name || '客人'} (${phone})\n` +
+              `地址：${addr}\n` +
+              `收件時段：${time}\n` +
+              `預約項目：\n${items.join('\n') || '- 待到場確認'}\n` +
+              `預估金額：HKD $${total}\n` +
+              (remarks ? `備註：${remarks}\n` : '') +
+              `--------------------\n請確認收件時間，謝謝！`;
+
+    const url = `https://wa.me/${SHOP_PHONE}?text=${encodeURIComponent(msg)}`;
+    window.location.href = url;
+  }
+</script>
+
+</body>
+</html>
