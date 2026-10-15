@@ -63,7 +63,7 @@
     <summary>👕 磅洗服務 (Laundry)</summary>
     <div class="details-content">
       <div class="item-row">
-        <span>磅洗 (首6磅$55，其後每磅$8)</span>
+        <span>磅洗 (首6磅$60，其後每磅$8)</span>
         <input type="number" id="washPounds" min="0" value="0" step="1" onchange="calculate()">
       </div>
       <div class="item-row">
@@ -145,7 +145,7 @@
 
 <script>
   // 店舖收單 WhatsApp 號碼 (請替換為你的手機號碼)
-  const SHOP_PHONE = "85265777167"; 
+  const SHOP_PHONE = "85297891291"; 
 
   function calculate() {
     let total = 0;
@@ -153,7 +153,7 @@
     // 獨立計算磅洗 (特價邏輯)
     const pounds = parseFloat(document.getElementById("washPounds").value) || 0;
     if (pounds > 0) {
-      total += pounds <= 6 ? 55 : 55 + (pounds - 6) * 8;
+      total += pounds <= 6 ? 60 : 60 + (pounds - 6) * 8;
     }
     
     // 自動掃描所有 class 為 calc-item 的項目並計算總數
