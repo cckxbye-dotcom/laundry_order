@@ -63,7 +63,7 @@
     <summary>👕 磅洗服務 (Laundry)</summary>
     <div class="details-content">
       <div class="item-row">
-        <span>磅洗 (首6磅$60，其後每磅$8)</span>
+        <span>磅洗 (首6磅$55，其後每磅$8)</span>
         <input type="number" id="washPounds" min="0" value="0" step="1" onchange="calculate()">
       </div>
       <div class="item-row">
@@ -185,7 +185,7 @@
     // 擷取磅洗項目
     const pounds = parseFloat(document.getElementById("washPounds").value) || 0;
     if (pounds > 0) {
-      let pPrice = pounds <= 6 ? 60 : 60 + (pounds - 6) * 8;
+      let pPrice = pounds <= 6 ? 55 : 55 + (pounds - 6) * 8;
       items.push(`- 磅洗約 ${pounds} 磅 ($${pPrice})`);
     }
 
