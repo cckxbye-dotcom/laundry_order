@@ -10,11 +10,20 @@
     .container { max-width: 480px; margin: 0 auto; background: var(--card); border-radius: 16px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
     h2 { margin-top: 0; color: var(--primary); text-align: center; }
     .section-title { font-weight: 600; margin: 16px 0 8px; font-size: 15px; border-bottom: 2px solid #e2e8f0; padding-bottom: 4px; }
+    
     .form-group { margin-bottom: 12px; }
     label { display: block; font-size: 14px; margin-bottom: 4px; font-weight: 500; }
-    input, select, textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; font-size: 15px; }
-    .item-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 14px; }
-    .item-row input[type="number"] { width: 70px; text-align: center; }
+    input[type="text"], input[type="tel"], select, textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; font-size: 15px; }
+    
+    /* 摺疊選單樣式 */
+    details { border: 1px solid #cbd5e1; border-radius: 8px; margin-bottom: 10px; overflow: hidden; background: #fff; }
+    summary { background: #f1f5f9; padding: 12px; font-weight: 600; font-size: 15px; cursor: pointer; user-select: none; }
+    .details-content { padding: 12px; border-top: 1px solid #e2e8f0; }
+    
+    .item-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 14px; }
+    .item-row span { flex: 1; padding-right: 10px; }
+    .item-row input[type="number"] { width: 60px; text-align: center; padding: 6px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; }
+    
     .total-box { background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 12px; margin: 16px 0; text-align: center; font-size: 18px; font-weight: bold; color: #0369a1; }
     .btn-submit { background: #25d366; color: white; border: none; width: 100%; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
     .btn-submit:hover { background: #1ebc59; }
@@ -48,26 +57,83 @@
   </div>
 
   <div class="section-title">2. 選擇洗滌服務</div>
-  <div class="item-row">
-    <span>磅洗估算 (首6磅$60，其後每磅$8)</span>
-    <input type="number" id="washPounds" min="0" value="0" step="1" onchange="calculate()">
-  </div>
-  <div class="item-row">
-    <span>普通被單 / 床笠 (+$0/件)</span>
-    <input type="number" id="bedSheet" min="0" value="0" onchange="calculate()">
-  </div>
-  <div class="item-row">
-    <span>冷氣被 / 珊瑚被 ($85起/張)</span>
-    <input type="number" id="quiltAir" min="0" value="0" onchange="calculate()">
-  </div>
-  <div class="item-row">
-    <span>羽絨被 / 大豆被 ($165起/張)</span>
-    <input type="number" id="quiltDown" min="0" value="0" onchange="calculate()">
-  </div>
+  
+  <!-- 磅洗服務 -->
+  <details open>
+    <summary>👕 磅洗服務 (Laundry)</summary>
+    <div class="details-content">
+      <div class="item-row">
+        <span>磅洗 (首6磅$60，其後每磅$8)</span>
+        <input type="number" id="washPounds" min="0" value="0" step="1" onchange="calculate()">
+      </div>
+      <div class="item-row">
+        <span>普通被單 / 床笠 (免加收)</span>
+        <input type="number" class="calc-item" data-price="0" data-name="普通被單/床笠" min="0" value="0" onchange="calculate()">
+      </div>
+      <div class="item-row">
+        <span>夾棉被袋 / 床墊 (+$35/件)</span>
+        <input type="number" class="calc-item" data-price="35" data-name="夾棉被袋/床墊" min="0" value="0" onchange="calculate()">
+      </div>
+    </div>
+  </details>
 
-  <div class="form-group">
+  <!-- 洗被服務 -->
+  <details>
+    <summary>🛌 洗被服務 (Bedding)</summary>
+    <div class="details-content">
+      <div class="item-row"><span>冷氣被/珊瑚被 (單人 $85)</span><input type="number" class="calc-item" data-price="85" data-name="冷氣/珊瑚被(單人)" min="0" value="0" onchange="calculate()"></div>
+      <div class="item-row"><span>冷氣被/珊瑚被 (雙人 $95)</span><input type="number" class="calc-item" data-price="95" data-name="冷氣/珊瑚被(雙人)" min="0" value="0" onchange="calculate()"></div>
+      <div class="item-row"><span>冷氣被/珊瑚被 (加大 $110)</span><input type="number" class="calc-item" data-price="110" data-name="冷氣/珊瑚被(加大)" min="0" value="0" onchange="calculate()"></div>
+      
+      <div class="item-row"><span>羽絨被/大豆被/羊毛被 (單人 $165)</span><input type="number" class="calc-item" data-price="165" data-name="羽絨被/大豆被(單人)" min="0" value="0" onchange="calculate()"></div>
+      <div class="item-row"><span>羽絨被/大豆被/羊毛被 (雙人 $190)</span><input type="number" class="calc-item" data-price="190" data-name="羽絨被/大豆被(雙人)" min="0" value="0" onchange="calculate()"></div>
+      <div class="item-row"><span>羽絨被/大豆被/羊毛被 (加大 $210)</span><input type="number" class="calc-item" data-price="210" data-name="羽絨被/大豆被(加大)" min="0" value="0" onchange="calculate()"></div>
+      
+      <div class="item-row"><span>羊毛氈 (單人 $120)</span><input type="number" class="calc-item" data-price="120" data-name="羊毛氈(單人)" min="0" value="0" onchange="calculate()"></div>
+      <div class="item-row"><span>羊毛氈 (雙人 $138)</span><input type="number" class="calc-item" data-price="138" data-name="羊毛氈(雙人)" min="0" value="0" onchange="calculate()"></div>
+      
+      <div class="item-row"><span>床墊/毛毯/毛巾被 (單人/薄 $70)</span><input type="number" class="calc-item" data-price="70" data-name="床墊/毛毯(單人/薄)" min="0" value="0" onchange="calculate()"></div>
+      <div class="item-row"><span>床墊/毛毯/毛巾被 (雙人/厚 $80)</span><input type="number" class="calc-item" data-price="80" data-name="床墊/毛毯(雙人/厚)" min="0" value="0" onchange="calculate()"></div>
+      
+      <div class="item-row"><span>睡袋 (單人 $70)</span><input type="number" class="calc-item" data-price="70" data-name="睡袋(單人)" min="0" value="0" onchange="calculate()"></div>
+      <div class="item-row"><span>睡袋 (雙人 $80)</span><input type="number" class="calc-item" data-price="80" data-name="睡袋(雙人)" min="0" value="0" onchange="calculate()"></div>
+    </div>
+  </details>
+
+  <!-- 水洗單件外套 -->
+  <details>
+    <summary>🧥 水洗外套 (Jackets)</summary>
+    <div class="details-content">
+      <div class="item-row"><span>羽絨褸/棉褸 (背心/短 $80)</span><input type="number" class="calc-item" data-price="80" data-name="水洗羽絨/棉褸(短)" min="0" value="0" onchange="calculate()"></div>
+      <div class="item-row"><span>羽絨褸/棉褸 (中 $90)</span><input type="number" class="calc-item" data-price="90" data-name="水洗羽絨/棉褸(中)" min="0" value="0" onchange="calculate()"></div>
+      <div class="item-row"><span>羽絨褸/棉褸 (長 $120)</span><input type="number" class="calc-item" data-price="120" data-name="水洗羽絨/棉褸(長)" min="0" value="0" onchange="calculate()"></div>
+    </div>
+  </details>
+
+  <!-- 乾洗服務 -->
+  <details>
+    <summary>👔 專業乾洗 (Dry Clean)</summary>
+    <div class="details-content">
+      <div class="item-row"><span>西裝 (兩件 $90起)</span><input type="number" class="calc-item" data-price="90" data-name="乾洗西裝(兩件)" min="0" value="0" onchange="calculate()"></div>
+      <div class="item-row"><span>西裝 (三件 $120起)</span><input type="number" class="calc-item" data-price="120" data-name="乾洗西裝(三件)" min="0" value="0" onchange="calculate()"></div>
+      <div class="item-row"><span>西裝褸 ($65起)</span><input type="number" class="calc-item" data-price="65" data-name="乾洗西裝褸" min="0" value="0" onchange="calculate()"></div>
+      <div class="item-row"><span>西褲/西裙 ($30起)</span><input type="number" class="calc-item" data-price="30" data-name="乾洗西褲/西裙" min="0" value="0" onchange="calculate()"></div>
+      <div class="item-row"><span>恤衫 ($30起)</span><input type="number" class="calc-item" data-price="30" data-name="乾洗恤衫" min="0" value="0" onchange="calculate()"></div>
+      <div class="item-row"><span>西裝背心 ($40起)</span><input type="number" class="calc-item" data-price="40" data-name="乾洗西裝背心" min="0" value="0" onchange="calculate()"></div>
+      <div class="item-row"><span>冷衫 ($50起)</span><input type="number" class="calc-item" data-price="50" data-name="乾洗冷衫" min="0" value="0" onchange="calculate()"></div>
+      
+      <div class="item-row"><span>各類褸 (短 $70起)</span><input type="number" class="calc-item" data-price="70" data-name="乾洗短褸" min="0" value="0" onchange="calculate()"></div>
+      <div class="item-row"><span>各類褸 (中 $80起)</span><input type="number" class="calc-item" data-price="80" data-name="乾洗中褸" min="0" value="0" onchange="calculate()"></div>
+      <div class="item-row"><span>各類褸 (長 $90起)</span><input type="number" class="calc-item" data-price="90" data-name="乾洗長褸" min="0" value="0" onchange="calculate()"></div>
+      
+      <div class="item-row"><span>羽絨褸 (中 $100起)</span><input type="number" class="calc-item" data-price="100" data-name="乾洗羽絨褸(中)" min="0" value="0" onchange="calculate()"></div>
+      <div class="item-row"><span>羽絨褸 (長 $110起)</span><input type="number" class="calc-item" data-price="110" data-name="乾洗羽絨褸(長)" min="0" value="0" onchange="calculate()"></div>
+    </div>
+  </details>
+
+  <div class="form-group" style="margin-top: 16px;">
     <label>特別要求 / 備註</label>
-    <textarea id="remarks" rows="2" placeholder="例如：唔要柔順劑 "></textarea>
+    <textarea id="remarks" rows="2" placeholder="例如：唔要柔順劑 / 留意污漬位置"></textarea>
   </div>
 
   <div class="total-box">預估金額：HKD $<span id="totalDisplay">0</span></div>
@@ -78,18 +144,25 @@
 </div>
 
 <script>
-  // 店舖收單 WhatsApp 號碼 (請替換為你的手機號碼，不用加 + 號，例: 85291234567)
+  // 店舖收單 WhatsApp 號碼 (請替換為你的手機號碼)
   const SHOP_PHONE = "85297891291"; 
 
   function calculate() {
     let total = 0;
+    
+    // 獨立計算磅洗 (特價邏輯)
     const pounds = parseFloat(document.getElementById("washPounds").value) || 0;
     if (pounds > 0) {
       total += pounds <= 6 ? 60 : 60 + (pounds - 6) * 8;
     }
-    total += (parseInt(document.getElementById("bedSheet").value) || 0) * 25;
-    total += (parseInt(document.getElementById("quiltAir").value) || 0) * 85;
-    total += (parseInt(document.getElementById("quiltDown").value) || 0) * 165;
+    
+    // 自動掃描所有 class 為 calc-item 的項目並計算總數
+    document.querySelectorAll('.calc-item').forEach(input => {
+      const qty = parseInt(input.value) || 0;
+      const price = parseFloat(input.getAttribute('data-price')) || 0;
+      total += qty * price;
+    });
+
     document.getElementById("totalDisplay").innerText = total;
     return total;
   }
@@ -100,10 +173,6 @@
     const addr = document.getElementById("custAddress").value.trim();
     const time = document.getElementById("pickupTime").value;
     const remarks = document.getElementById("remarks").value.trim();
-    const pounds = document.getElementById("washPounds").value;
-    const sheet = document.getElementById("bedSheet").value;
-    const qAir = document.getElementById("quiltAir").value;
-    const qDown = document.getElementById("quiltDown").value;
     const total = calculate();
 
     if (!phone || !addr) {
@@ -112,10 +181,24 @@
     }
 
     let items = [];
-    if (pounds > 0) items.push(`- 磅洗約 ${pounds} 磅`);
-    if (sheet > 0) items.push(`- 被單/床笠 x ${sheet}`);
-    if (qAir > 0) items.push(`- 冷氣/珊瑚被 x ${qAir}`);
-    if (qDown > 0) items.push(`- 羽絨被 x ${qDown}`);
+    
+    // 擷取磅洗項目
+    const pounds = parseFloat(document.getElementById("washPounds").value) || 0;
+    if (pounds > 0) {
+      let pPrice = pounds <= 6 ? 60 : 60 + (pounds - 6) * 8;
+      items.push(`- 磅洗約 ${pounds} 磅 ($${pPrice})`);
+    }
+
+    // 動態擷取其他所有大於 0 的項目
+    document.querySelectorAll('.calc-item').forEach(input => {
+      const qty = parseInt(input.value) || 0;
+      if (qty > 0) {
+        const name = input.getAttribute('data-name');
+        const price = parseFloat(input.getAttribute('data-price')) || 0;
+        let itemTotalText = price > 0 ? ` ($${qty * price})` : ` (免費)`;
+        items.push(`- ${name} x ${qty}${itemTotalText}`);
+      }
+    });
 
     let msg = `【俊傑洗衣 - 新預約訂單】\n` +
               `顧客：${name || '客人'} (${phone})\n` +
