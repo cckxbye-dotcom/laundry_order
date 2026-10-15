@@ -85,7 +85,7 @@
     let total = 0;
     const pounds = parseFloat(document.getElementById("washPounds").value) || 0;
     if (pounds > 0) {
-      total += pounds <= 6 ? 55 : 55 + (pounds - 6) * 6;
+      total += pounds <= 6 ? 60 : 60 + (pounds - 8) * 8;
     }
     total += (parseInt(document.getElementById("bedSheet").value) || 0) * 25;
     total += (parseInt(document.getElementById("quiltAir").value) || 0) * 85;
