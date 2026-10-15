@@ -133,7 +133,7 @@
 
   <div class="form-group" style="margin-top: 16px;">
     <label>特別要求 / 備註</label>
-    <textarea id="remarks" rows="2" placeholder="例如：唔要柔順劑 / 留意污漬位置"></textarea>
+    <textarea id="remarks" rows="2" placeholder="例如：唔要柔順劑"></textarea>
   </div>
 
   <div class="total-box">預估金額：HKD $<span id="totalDisplay">0</span></div>
@@ -145,7 +145,7 @@
 
 <script>
   // 店舖收單 WhatsApp 號碼 (請替換為你的手機號碼)
-  const SHOP_PHONE = "85297891291"; 
+  const SHOP_PHONE = "85265777167"; 
 
   function calculate() {
     let total = 0;
@@ -153,7 +153,7 @@
     // 獨立計算磅洗 (特價邏輯)
     const pounds = parseFloat(document.getElementById("washPounds").value) || 0;
     if (pounds > 0) {
-      total += pounds <= 6 ? 60 : 60 + (pounds - 6) * 8;
+      total += pounds <= 6 ? 55 : 55 + (pounds - 6) * 8;
     }
     
     // 自動掃描所有 class 為 calc-item 的項目並計算總數
