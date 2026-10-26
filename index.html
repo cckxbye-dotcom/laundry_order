@@ -8,7 +8,7 @@
     :root { --primary: #0284c7; --bg: #f8fafc; --card: #ffffff; }
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); margin: 0; padding: 16px; color: #1e293b; }
     .container { max-width: 480px; margin: 0 auto; background: var(--card); border-radius: 16px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-    h2 { margin-top: 0; margin-bottom: 24px; color: var(--primary); text-align: center; }
+    h2 { margin-top: 0; color: var(--primary); text-align: center; }
     .section-title { font-weight: 600; margin: 16px 0 8px; font-size: 15px; border-bottom: 2px solid #e2e8f0; padding-bottom: 4px; }
     
     .form-group { margin-bottom: 12px; }
@@ -32,8 +32,10 @@
 <body>
 
 <div class="container">
-  <h2>🧺 俊傑洗衣\
-    \洗衣及乾洗預約收送</h2>
+  <h2 style="margin-bottom: 24px; line-height: 1.5;">
+  🧺 俊傑洗衣<br>
+  <span style="font-size: 18px; color: #64748b;">洗衣及乾洗預約收送</span>
+</h2>
   
   <div class="section-title">1. 聯絡與上門收送資料</div>
   <div class="form-group">
